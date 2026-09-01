@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ficha Técnica - {{ inserto.codigo }}</title>
+    <link rel="shortcut icon" href="/assets/micro-favicon.jpg" type="image/png">
+    <link rel="icon" href="/assets/micro-favicon.jpg" type="image/png">
+    <link rel="stylesheet" href="{{ css_path if css_path else '../static/styles.css' }}">
+</head>
+
+<body>
+
+    <div class="sheet-container">
+        <!-- Header -->
+        <header>
+            <div class="logo-container">
+                <img src="{{ logo_path if logo_path else '../assets/micro-logo.png' }}" alt="MICRO Automación Logo">
+            </div>
+            <div class="header-title">
+                <h1>Ficha Técnica</h1>
+                <span>INSERTOS</span>
+            </div>
+        </header>
+
+        <!-- Product Banner -->
+        <div class="product-banner">
+            <div class="product-info">
+                <h2>{{ inserto.detalle }}</h2>
+                <p>Inserto de alta precisión para mecanizado</p>
+            </div>
+            <div class="code-badge">
+                {{ inserto.codigo }}
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Left: Insert Image -->
+            <div class="image-card">
+                <div class="section-title" style="width: 100%; text-align: center;">Geometría del Inserto</div>
+                <img src="{{ inserto.imagen_inserto if inserto.imagen_inserto else 'https://via.placeholder.com/220?text=Inserto+PCD' }}"
+                    alt="Imagen del inserto {{ inserto.codigo }}">
+            </div>
+
+            <!-- Right: Technical Specifications -->
+            <div class="specs-card">
+                <div class="section-title">Parámetros de Mecanizado</div>
+
+                <div class="spec-item">
+                    <span class="spec-label">Ap [mm] (Prof. corte)</span>
+                    <span class="spec-value">{{ inserto.ap_mm }}</span>
+                </div>
+
+                <div class="spec-item">
+                    <span class="spec-label">Ft [mm/rpm] (Avance)</span>
+                    <span class="spec-value">{{ inserto.ft_mm_rpm }}</span>
+                </div>
+
+                <div class="spec-item">
+                    <span class="spec-label">Vc [m/min] (Vel. corte)</span>
+                    <span class="spec-value">{{ inserto.vc_m_min }}</span>
+                </div>
+
+                <div class="spec-item">
+                    <span class="spec-label">R [mm] (Radio inserto)</span>
+                    <span class="spec-value">{{ inserto.r_mm }}</span>
+                </div>
+
+                <div class="spec-item">
+                    <span class="spec-label">Clasificación ISO</span>
+                    <div class="iso-materials">
+                        {% if inserto.clasificacion_iso %}
+                        {% for iso in inserto.clasificacion_iso %}
+                        <span class="iso-badge iso-{{ iso }}">{{ iso }}</span>
+                        {% endfor %}
+                        {% else %}
+                        <span class="iso-badge iso-N">N</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <button type="button" class="btn-plano" onclick="openModal()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+                    Ver Plano Técnico
+                </button>
+            </div>
+
+            <!-- Compatible Tool Holders -->
+            <div class="full-width-card">
+                <div class="section-title">Porta Herramientas Compatibles</div>
+                <div class="holder-list">
+                    {% if inserto.porta_herramientas %}
+                    {% for porta in inserto.porta_herramientas %}
+                    <span class="holder-tag">{{ porta }}</span>
+                    {% endfor %}
+                    {% else %}
+                    <span class="holder-tag">Sin datos de porta herramientas compatibles</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Tipos de Mecanizados -->
+            <div class="full-width-card">
+                <div class="section-title">Tipos de Mecanizado Admitidos</div>
+                <div class="mecanizado-box">
+                    {% if inserto.imagen_tipo_mecanizado %}
+                    <img src="{{ inserto.imagen_tipo_mecanizado }}"
+                        alt="Tipos de mecanizado del inserto {{ inserto.codigo }}">
+                    {% else %}
+                    <span style="font-size: 13px; color: var(--text-muted); font-style: italic;">
+                        Imagen de tipo de mecanizado no disponible en catálogo
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <span>MICRO AUTOMACIÓN - Generador de Fichas Técnicas PCD</span>
+            <span>www.micro.com.ar</span>
+        </footer>
+    </div>
+
+    <!-- Modal Plano Técnico -->
+    <div id="planoModal" class="modal-overlay" onclick="closeModalOnOverlay(event)">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3>Plano Técnico - {{ inserto.codigo }} ({{ inserto.detalle }})</h3>
+                <button type="button" class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="plano-img-container">
+                    {% if inserto.imagen_plano %}
+                    <img src="{{ inserto.imagen_plano }}" alt="Plano técnico del inserto {{ inserto.codigo }}">
+                    {% else %}
+                    <span style="font-size: 13px; color: var(--text-muted); font-style: italic;">
+                        Plano esquemático no disponible
+                    </span>
+                    {% endif %}
+                </div>
+
+                <table class="medidas-table">
+                    <tbody>
+                        {% if inserto.medidas_plano %}
+                        {% for ref, medida in inserto.medidas_plano.items() %}
+                        <tr>
+                            <td>{{ ref }}</td>
+                            <td>{{ medida }}</td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                        <tr>
+                            <td>Referencia de medidas</td>
+                            <td>Sin datos especificados</td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openModal() {
+            document.getElementById('planoModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('planoModal').classList.remove('active');
+        }
+
+        function closeModalOnOverlay(event) {
+            if (event.target.id === 'planoModal') {
+                closeModal();
+            }
+        }
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Inserto no encontrado</title>
+    <link rel="shortcut icon" href="/assets/micro-favicon.jpg" type="image/png">
+    <link rel="icon" href="/assets/micro-favicon.jpg" type="image/png">
+    <link rel="stylesheet" href="{{ css_path if css_path else '../static/styles.css' }}">
+    <style>
+        .error-card {
+            padding: 50px 30px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .error-code {
+            font-size: 64px;
+            font-weight: 800;
+            color: var(--micro-blue);
+            line-height: 1;
+        }
+
+        .error-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--micro-navy);
+        }
+
+        .error-message {
+            font-size: 14px;
+            color: var(--text-muted);
+            max-width: 450px;
+            margin-bottom: 10px;
+        }
+
+        .search-badge {
+            background-color: var(--micro-blue-light);
+            color: var(--micro-blue-dark);
+            border: 1px dashed var(--micro-blue);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .btn-back {
+            margin-top: 10px;
+            display: inline-block;
+            background-color: var(--micro-blue);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px 22px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-back:hover {
+            background-color: var(--micro-blue-dark);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="sheet-container">
+        <!-- Header -->
+        <header>
+            <div class="logo-container">
+                <img src="{{ logo_path if logo_path else '../assets/micro-logo.png' }}" alt="MICRO Automación Logo">
+            </div>
+            <div class="header-title">
+                <h1>Ficha Técnica</h1>
+                <span>INSERTOS PCD</span>
+            </div>
+        </header>
+
+        <!-- Error Banner -->
+        <div class="product-banner">
+            <div class="product-info">
+                <h2>Elemento No Encontrado</h2>
+                <p>No pudimos ubicar la ficha técnica solicitada</p>
+            </div>
+            <div class="code-badge">
+                404
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="error-card">
+            <div class="error-code">404</div>
+            <div class="error-title">Inserto No Registrado</div>
+            <p class="error-message">
+                No existe ninguna ficha técnica registrada para el código de inserto:
+            </p>
+            <div class="search-badge">{{ codigo if codigo else 'DESCONOCIDO' }}</div>
+            <p class="error-message" style="font-size: 13px; margin-top: 5px;">
+                Por favor, verifica el código ingresado o revisa la lista de insertos disponibles en la base de datos.
+            </p>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <span>MICRO AUTOMACIÓN - Generador de Fichas Técnicas PCD</span>
+            <span>www.micro.com.ar</span>
+        </footer>
+    </div>
+
+</body>
+
+</html>
